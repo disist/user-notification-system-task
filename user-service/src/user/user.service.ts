@@ -13,18 +13,23 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const user = await this.prisma.user.create({
-      data: createUserDto,
-    });
+    try {
+      const user = await this.prisma.user.create({
+        data: createUserDto,
+      });
 
-    this.producerService.emit('user.created', {
-      userId: user.id,
-      createdAt: user.createdAt,
-      name: user.name,
-    });
+      this.producerService.emit('user.created', {
+        userId: user.id,
+        createdAt: user.createdAt,
+        name: user.name,
+      });
 
-    this.logger.log(`User created with ID: ${user.id}`);
+      this.logger.log(`User created with ID: ${user.id}`);
 
-    return user;
+      return user;
+    } catch (error) {
+      this.logger.error('Failed to create user', error);
+      throw error;
+    }
   }
 }
