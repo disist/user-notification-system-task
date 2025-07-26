@@ -17,6 +17,4 @@ cd user-notification-system-task
 docker compose up
 ```
 
-## License
-
-This project is licensed under the MIT License.
+User-Service Swagger http://localhost:3000/api

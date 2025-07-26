@@ -22,5 +22,5 @@ RUN npm run build
 # Expose the port NestJS runs on
 EXPOSE 3000
 
-# Command to run the application
-CMD ["node", "dist/main"]
+# Run migrations and start the app at runtime
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main"]
