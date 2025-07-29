@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './create-user.dto';
-import { ProducerService } from 'src/producer/producer.service';
+import { UserNotificationService } from 'src/user-notification/user-notification.service';
 
 @Injectable()
 export class UserService {
@@ -9,7 +9,7 @@ export class UserService {
 
   constructor(
     private prisma: PrismaService,
-    private producerService: ProducerService,
+    private userNotificationService: UserNotificationService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -18,11 +18,7 @@ export class UserService {
         data: createUserDto,
       });
 
-      this.producerService.emit('user.created', {
-        userId: user.id,
-        createdAt: user.createdAt,
-        name: user.name,
-      });
+      void this.userNotificationService.scheduleUserNotification(user.id);
 
       this.logger.log(`User created with ID: ${user.id}`);
 

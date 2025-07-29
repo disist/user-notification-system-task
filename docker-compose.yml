@@ -11,21 +11,33 @@ services:
     environment:
       DATABASE_URL: postgres://user:pass@db:5432/db
       RABBITMQ_URL: amqp://rabbitmq:5672
+    deploy:
+      replicas: 2
 
   notification-service:
     build: ./notification-service
     depends_on:
       - rabbitmq
-      - redis
     environment:
       RABBITMQ_URL: amqp://rabbitmq:5672
-      REDIS_URL: redis://redis:6379
+    deploy:
+      replicas: 2
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:4-management
     ports:
       - "5672:5672"
       - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest  
+    command: >
+      sh -c "
+        apt-get update && apt-get install -y wget &&
+        wget -O /opt/rabbitmq/plugins/rabbitmq_delayed_message_exchange-4.1.0.ez https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v4.1.0/rabbitmq_delayed_message_exchange-4.1.0.ez &&
+        rabbitmq-plugins enable rabbitmq_delayed_message_exchange &&
+        rabbitmq-server
+      "
 
   db:
     image: postgres:14
@@ -35,8 +47,3 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass
       POSTGRES_DB: db
-
-  redis:
-    image: redis:7
-    ports:
-      - "6379:6379"

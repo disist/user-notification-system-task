@@ -3,8 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { NotificationModule } from './notification/notification.module';
 import { ConfigModule } from '@nestjs/config';
-import { StorageModule } from './storage/storage.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { EventConsumerModule } from './event-consumer/event-consumer.module';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
     ScheduleModule.forRoot(),
     NotificationModule,
-    StorageModule,
+    EventConsumerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

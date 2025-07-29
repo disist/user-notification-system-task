@@ -14,7 +14,8 @@ cd user-notification-system-task
 
 **Demo:**
 ```bash
-docker compose up
+docker compose up -d
 ```
 
+**User-Service Swagger:**
 User-Service Swagger http://localhost:3000/api

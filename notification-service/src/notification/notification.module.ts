@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
 import { NotificationService } from './notification.service';
-import { NotificationController } from './notification.controller';
-import { StorageModule } from 'src/storage/storage.module';
-import { NotificationSchedulerService } from './notification-scheduler.service';
+import { EventConsumerModule } from 'src/event-consumer/event-consumer.module';
 
 @Module({
-  imports: [StorageModule],
-  providers: [NotificationService, NotificationSchedulerService],
-  controllers: [NotificationController],
+  imports: [EventConsumerModule],
+  providers: [NotificationService],
 })
 export class NotificationModule {}

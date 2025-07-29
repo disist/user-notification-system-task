@@ -4,7 +4,8 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
-import { ProducerModule } from './producer/producer.module';
+import { EventProducerModule } from './event-producer/event-producer.module';
+import { UserNotificationModule } from './user-notification/user-notification.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { ProducerModule } from './producer/producer.module';
     }),
     UserModule,
     PrismaModule,
-    ProducerModule,
+    EventProducerModule,
+    UserNotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
